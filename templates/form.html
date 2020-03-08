@@ -1,0 +1,91 @@
+{#
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#}
+
+{# [START form] #}
+{% extends "base.html" %}
+
+{% block content %}
+<h3>{{action}} book</h3>
+
+<form method="POST" enctype="multipart/form-data">
+
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" value="{{book.title}}" class="form-control"/>
+  </div>
+
+  <div class="form-group">
+    <label for="author">Author</label>
+    <input type="text" name="author" id="author" value="{{book.author}}" class="form-control"/>
+  </div>
+
+  <div class="form-group">
+    <label for="publishedDate">Date Published</label>
+    <input type="text" name="publishedDate" id="publishedDate" value="{{book.publishedDate}}" class="form-control"/>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea name="description" id="description" class="form-control">{{book.description}}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="image">Cover Image</label>
+    <input type="file" name="image" id="image" class="form-control"/>
+  </div>
+
+  <div class="form-group hidden">
+    <label for="imageUrl">Cover Image URL</label>
+    <input type="text" name="imageUrl" id="imageUrl" value="{{book.imageUrl}}" class="form-control"/>
+  </div>
+
+    <div id="moreFields"></div>
+    <div class="btn btn-info btn-sm" onclick="addField()">Add Field</div>
+
+    <br>
+
+  <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+    <script>
+    function addField() {
+        var newField = prompt("What is the name of your new field?","Pages");
+        if (newField == null || newField == "") {
+            console.alert("User cancelled the prompt.");
+        } else {
+            newField = newField.toLowerCase();
+
+            var newElement = document.createElement("div");
+            newElement.setAttribute('class','form-group');
+
+            var newLabel = document.createElement('label');
+            newLabel.textContent = newField;
+            newLabel.setAttribute('for',newField);
+            newElement.appendChild(newLabel);
+
+            var newInput = document.createElement('input');
+            newInput.setAttribute('id',newField);
+            newInput.setAttribute('name',newField);
+            newInput.setAttribute('class','form-control');
+            newElement.appendChild(newInput);
+
+            document.getElementById('moreFields').appendChild(newElement);
+        }
+    }
+    </script>
+
+{% endblock %}
+{# [END form] #}
